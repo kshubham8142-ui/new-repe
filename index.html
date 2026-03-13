@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BharatTrade - Made in India Wholesale</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        :root {
+            --primary: #1e3c72;
+            --secondary: #2a5298;
+            --accent: #ff6b35;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Header Styles */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo i {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--dark);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .cart-count {
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            padding: 0.2rem 0.6rem;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Card Styles */
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        /* Auth Pages */
+        .auth-container {
+            max-width: 500px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .auth-header h1 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 2.2rem;
+        }
+
+        .auth-header p {
+            color: var(--dark);
+            opacity: 0.8;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
+        }
+
+        .select-control {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1rem;
+            background: white;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: var(--accent);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-back {
+            background: #6c757d;
+        }
+
+        .error-message {
+            color: var(--danger);
+            text-align: center;
+            margin-top: 1rem;
+            padding: 0.5rem;
+            border-radius: 5px;
+            background: rgba(220, 53, 69, 0.1);
+        }
+
+        .success-message {
+            color: var(--success);
+            text-align: center;
+            margin-top: 1rem;
+            padding: 0.5rem;
+            border-radius: 5px;
+            background: rgba(40, 167, 69, 0.1);
+        }
+
+        /* Dashboard Styles */
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+        }
+
+        .dashboard-header h1 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .dashboard-header p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.1rem;
+        }
+
+        .filters-section {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 2;
+            min-width: 300px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .search-box i {
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .product-card {
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .product-card h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .product-description {
+            color: var(--dark);
+            opacity: 0.8;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin: 1rem 0;
+        }
+
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .rating {
+            color: var(--warning);
+        }
+
+        /* Cart Styles */
+        .cart-header {
+            color: white;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            gap: 1.5rem;
+        }
+
+        .cart-item-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 10px;
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 0.8rem;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-details h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-item-price {
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .quantity-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .remove-btn {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .cart-summary {
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .summary-total {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        /* Profile Styles */
+        .profile-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .profile-info {
+            margin-bottom: 2rem;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .info-label {
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .info-value {
+            color: var(--dark);
+        }
+
+        .logout-btn {
+            background: var(--danger);
+            width: 200px;
+            margin: 2rem auto;
+            display: block;
+        }
+
+        /* Backend Console */
+        .backend-console {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.9);
+            color: #00ff00;
+            padding: 1rem;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            max-width: 400px;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+            border: 1px solid #00ff00;
+        }
+
+        .console-header {
+            color: #00ff00;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .console-log {
+            color: #00ff00;
+            margin-bottom: 0.2rem;
+        }
+
+        /* Empty States */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--dark);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        /* Loading Spinner */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: var(--primary);
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            z-index: 10000;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .notification.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Page Navigation */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .nav-buttons .btn {
+            flex: 1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filters-section {
+                flex-direction: column;
+            }
+
+            .cart-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .auth-container {
+                margin: 1rem auto;
+                padding: 1.5rem;
+            }
+
+            .backend-console {
+                display: none;
+            }
+        }
+    </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <i class="fas fa-flag"></i>
+                BharatTrade
+            </div>
+            <div class="nav-links">
+                <a href="#" onclick="showPage('dashboard-page')">
+                    <i class="fas fa-boxes"></i> Products
+                </a>
+                <a href="#" onclick="showPage('cart-page')">
+                    <i class="fas fa-shopping-cart"></i> Cart 
+                    <span id="cart-count" class="cart-count">0</span>
+                </a>
+                <a href="#" onclick="showPage('profile-page')">
+                    <i class="fas fa-user"></i> Profile
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Step 1: Name & Purpose -->
+        <div id="step1-page" class="page active">
+            <div class="card auth-container">
+                <div class="auth-header">
+                    <h1>🇮🇳 Welcome to BharatTrade</h1>
+                    <p>Step 1: Tell us about yourself</p>
+                </div>
+                <form id="step1-form">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" class="form-control" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="purpose">Purpose</label>
+                        <select id="purpose" class="select-control" required>
+                            <option value="">Select your purpose</option>
+                            <option value="manufacturer">I want to sell products</option>
+                            <option value="buyer">I want to buy products</option>
+                            <option value="both">Both buy and sell</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn">Continue →</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Step 2: Email & Password -->
+        <div id="step2-page" class="page">
+            <div class="card auth-container">
+                <div class="auth-header">
+                    <h1>Create Account</h1>
+                    <p>Step 2: Create your secure login</p>
+                </div>
+                <form id="step2-form">
+                    <div class="form-group">
+                        <label for="email">Business Email</label>
+                        <input type="email" id="email" class="form-control" placeholder="Enter your business email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" class="form-control" placeholder="Create a strong password" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label for="userType">Account Type</label>
+                        <select id="userType" class="select-control" required>
+                            <option value="buyer">Buyer Account</option>
+                            <option value="manufacturer">Manufacturer Account</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn">
+                        <i class="fas fa-user-plus"></i> Create Account
+                    </button>
+                    <div class="nav-buttons">
+                        <button type="button" class="btn btn-back" onclick="showPage('step1-page')">
+                            ← Back
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Login Page -->
+        <div id="login-page" class="page">
+            <div class="card auth-container">
+                <div class="auth-header">
+                    <h1>Welcome Back</h1>
+                    <p>Login to your BharatTrade account</p>
+                </div>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" class="form-control" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" class="form-control" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="btn">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+                    <div class="success-message">
+                        New user? <a href="#" onclick="showPage('step1-page')" style="color: var(--primary); text-decoration: none; font-weight: bold;">Create account here</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Dashboard Page -->
+        <div id="dashboard-page" class="page">
+            <div class="dashboard-header">
+                <h1>Made in India Products</h1>
+                <p>Source directly from Indian manufacturers</p>
+            </div>
+            
+            <div class="filters-section">
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="Search products, categories, regions...">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="filter-group">
+                    <select id="category-filter" class="select-control">
+                        <option value="all">All Categories</option>
+                        <option value="Handicrafts">Handicrafts</option>
+                        <option value="Textiles">Textiles</option>
+                        <option value="Home & Kitchen">Home & Kitchen</option>
+                        <option value="Organic Food">Organic Food</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Jewelry">Jewelry</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <select id="sort-filter" class="select-control">
+                        <option value="default">Sort By</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="rating">Highest Rated</option>
+                        <option value="name">Name: A to Z</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="loading" class="loading" style="display: none;">
+                <div class="spinner"></div>
+                <p>Loading Made in India products...</p>
+            </div>
+
+            <div id="products-grid" class="products-grid"></div>
+        </div>
+
+        <!-- Cart Page -->
+        <div id="cart-page" class="page">
+            <div class="cart-header">
+                <h1>Your Order Cart</h1>
+                <p>Review and manage your wholesale order</p>
+            </div>
+
+            <div id="empty-cart" class="empty-state card">
+                <i class="fas fa-shopping-cart"></i>
+                <h3>Your cart is empty</h3>
+                <p>Add some wholesale products to get started</p>
+                <button class="btn" onclick="showPage('dashboard-page')" style="margin-top: 1rem; width: auto;">
+                    <i class="fas fa-boxes"></i> Browse Products
+                </button>
+            </div>
+
+            <div id="cart-content" style="display: none;">
+                <div id="cart-items"></div>
+                
+                <div class="card cart-summary">
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span>₹<span id="subtotal">0</span></span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Shipping:</span>
+                        <span>₹<span id="shipping">200</span></span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Tax (18%):</span>
+                        <span>₹<span id="tax">0</span></span>
+                    </div>
+                    <div class="summary-row summary-total">
+                        <span>Total Amount:</span>
+                        <span>₹<span id="cart-total">0</span></span>
+                    </div>
+                    <button id="checkout-btn" class="btn" style="margin-top: 2rem;">
+                        <i class="fas fa-credit-card"></i> Proceed to Wholesale Checkout
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Page -->
+        <div id="profile-page" class="page">
+            <div class="card profile-container">
+                <div class="profile-header">
+                    <h1>Your Profile</h1>
+                    <p>Manage your account information</p>
+                </div>
+                
+                <div class="profile-info">
+                    <div class="info-item">
+                        <span class="info-label">Name:</span>
+                        <span class="info-value" id="profile-name">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Email:</span>
+                        <span class="info-value" id="profile-email">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Purpose:</span>
+                        <span class="info-value" id="profile-purpose">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Account Type:</span>
+                        <span class="info-value" id="profile-userType">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Member Since:</span>
+                        <span class="info-value" id="profile-createdAt">-</span>
+                    </div>
+                </div>
+
+                <button class="btn logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+                <button class="btn btn-back" onclick="showPage('dashboard-page')">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Backend Console -->
+    <div class="backend-console">
+        <div class="console-header">🚀 BACKEND CONSOLE (Live)</div>
+        <div id="console-logs"></div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+
+    <script>
+        // Backend Console Logger
+        class BackendConsole {
+            static log(message) {
+                const console = document.getElementById('console-logs');
+                const timestamp = new Date().toLocaleTimeString();
+                const logEntry = document.createElement('div');
+                logEntry.className = 'console-log';
+                logEntry.innerHTML = `[${timestamp}] ${message}`;
+                console.appendChild(logEntry);
+                console.scrollTop = console.scrollHeight;
+            }
+        }
+
+        // Complete Made in India Products Data with REAL images
+        const madeInIndiaProducts = [
+            // 🧵 Handicrafts & Artisanal Products
+            { id: 1, name: 'Handwoven Cotton Sarees', description: 'Traditional handloom cotton sarees with intricate patterns', price: 2500, image: 'https://images.unsplash.com/photo-1585435557343-3b092031d5ad?w=400&h=300&fit=crop', category: 'Handicrafts', moq: '10 pieces', rating: 4.8, region: 'Tamil Nadu, West Bengal', attributes: 'Fabric type, pattern, handloom tag' },
+            { id: 2, name: 'Brass Decorative Lamps', description: 'Handcrafted brass lamps with traditional designs', price: 1200, image: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=400&h=300&fit=crop', category: 'Handicrafts', moq: '25 units', rating: 4.5, region: 'Moradabad (UP)', attributes: 'Material, finish, size' },
+            { id: 3, name: 'Terracotta Pots', description: 'Eco-friendly terracotta pots for home decor', price: 450, image: 'https://images.unsplash.com/photo-1585435557343-3b092031d5ad?w=400&h=300&fit=crop', category: 'Handicrafts', moq: '50 units', rating: 4.3, region: 'West Bengal, Rajasthan', attributes: 'Clay type, size, glaze' },
+            { id: 4, name: 'Wooden Toys', description: 'Hand-painted eco-safe wooden toys', price: 700, image: 'https://images.unsplash.com/photo-1585435557343-3b092031d5ad?w=400&h=300&fit=crop', category: 'Handicrafts', moq: '100 units', rating: 4.7, region: 'Channapatna (Karnataka)', attributes: 'Wood type, hand-painted, eco-safe' },
+            { id: 5, name: 'Jute Bags', description: 'Eco-friendly jute bags with modern designs', price: 375, image: 'https://images.unsplash.com/photo-1585435557343-3b092031d5ad?w=400&h=300&fit=crop', category: 'Handicrafts', moq: '200 units', rating: 4.4, region: 'Kolkata', attributes: 'Size, design, eco-friendly tag' },
+
+            // 👕 Textiles & Apparel
+            { id: 11, name: 'Organic Cotton T-Shirts', description: 'Premium organic cotton t-shirts', price: 525, image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=300&fit=crop', category: 'Textiles', moq: '100 pieces', rating: 4.6, region: 'Tirupur', attributes: 'GSM, color, print type' },
+            { id: 12, name: 'Khadi Shirts', description: 'Traditional khadi fabric shirts', price: 700, image: 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400&h=300&fit=crop', category: 'Textiles', moq: '50 pieces', rating: 4.5, region: 'Gujarat', attributes: 'Material, sleeve, weave' },
+            { id: 13, name: 'Silk Dupattas', description: 'Pure silk dupattas with embroidery', price: 2400, image: 'https://images.unsplash.com/photo-1585435557343-3b092031d5ad?w=400&h=300&fit=crop', category: 'Textiles', moq: '25 pieces', rating: 4.8, region: 'Varanasi', attributes: 'Silk type, weave, embroidery' },
+            { id: 14, name: 'Woolen Shawls', description: 'Warm woolen shawls from Himalayas', price: 3600, image: 'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=400&h=300&fit=crop', category: 'Textiles', moq: '30 pieces', rating: 4.7, region: 'Himachal Pradesh', attributes: 'Wool type, pattern' },
+            { id: 15, name: 'Denim Jeans', description: 'Premium quality denim jeans', price: 1300, image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&h=300&fit=crop', category: 'Textiles', moq: '100 pieces', rating: 4.4, region: 'Delhi, Gujarat', attributes: 'Fit, stretch %, fabric' },
+
+            // 🏠 Home & Kitchen
+            { id: 21, name: 'Stainless Steel Cookware', description: 'Complete stainless steel cookware set', price: 2500, image: 'https://images.unsplash.com/photo-1585435557343-3b092031d5ad?w=400&h=300&fit=crop', category: 'Home & Kitchen', moq: '20 sets', rating: 4.5, region: 'Gujarat', attributes: 'Gauge, number of pieces' },
+            { id: 22, name: 'Copper Water Bottles', description: 'Ayurvedic copper water bottles', price: 1050, image: 'https://images.unsplash.com/photo-1585435557343-3b092031d5ad?w=400&h=300&fit=crop', category: 'Home & Kitchen', moq: '50 units', rating: 4.6, region: 'Moradabad', attributes: 'Capacity, finish' },
+            { id: 23, name: 'Clay Cookware', description: 'Traditional clay pots for cooking', price: 1200, image: 'https://images.unsplash.com/photo-1585435557343-3b092031d5ad?w=400&h=300&fit=crop', category: 'Home & Kitchen', moq: '100 units', rating: 4.3, region: 'Tamil Nadu', attributes: 'Type, size, handmade' },
+            { id: 24, name: 'Handwoven Rugs', description: 'Colorful handwoven rugs', price: 3500, image: 'https://images.unsplash.com/photo-1585435557343-3b092031d5ad?w=400&h=300&fit=crop', category: 'Home & Kitchen', moq: '25 pieces', rating: 4.7, region: 'Panipat', attributes: 'Material, size, pattern' },
+            { id: 25, name: 'Cotton Bedsheets', description: 'Premium cotton bedsheets', price: 1600, image: 'https://images.unsplash.com/photo-1585435557343-3b092031d5ad?w=400&h=300&fit=crop', category: 'Home & Kitchen', moq: '50 sets', rating: 4.4, region: 'Jaipur', attributes: 'Thread count, design' },
+
+            // 🌿 Organic Food
+            { id: 31, name: 'Organic Spices', description: 'Premium organic spices collection', price: 500, image: 'https://images.unsplash.com/photo-1585435557343-3b092031d5ad?w=400&h=300&fit=crop', category: 'Organic Food', moq: '25 kg', rating: 4.8, region: 'Kerala', attributes: 'Type, grade, packaging' },
+            { id: 32, name: 'Herbal Tea', description: 'Ayurvedic herbal tea blends', price: 725, image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400&h=300&fit=crop', category: 'Organic Food', moq: '50 kg', rating: 4.6, region: 'Assam', attributes: 'Blend type, origin' },
+            { id: 33, name: 'Cold-Pressed Oils', description: 'Pure cold-pressed cooking oils', price: 400, image: 'https://images.unsplash.com/photo-1585435557343-3b092031d5ad?w=400&h=300&fit=crop', category: 'Organic Food', moq: '100 L', rating: 4.7, region: 'Tamil Nadu', attributes: 'Seed type, volume' },
+            { id: 34, name: 'Pure Honey', description: '100% pure natural honey', price: 525, image: 'https://images.unsplash.com/photo-1585435557343-3b092031d5ad?w=400&h=300&fit=crop', category: 'Organic Food', moq: '50 kg', rating: 4.5, region: 'Uttarakhand', attributes: 'Floral source, purity' },
+            { id: 35, name: 'Millet Grains', description: 'Organic millet grains pack', price: 140, image: 'https://images.unsplash.com/photo-1585435557343-3b092031d5ad?w=400&h=300&fit=crop', category: 'Organic Food', moq: '100 kg', rating: 4.4, region: 'Karnataka', attributes: 'Type, packaging' },
+
+            // 💎 Jewelry
+            { id: 41, name: 'Silver Jewelry Set', description: 'Traditional silver jewelry collection', price: 27500, image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=400&h=300&fit=crop', category: 'Jewelry', moq: '50 units', rating: 4.9, region: 'Rajasthan', attributes: 'Silver purity, design' },
+            { id: 42, name: 'Gold Plated Earrings', description: 'Elegant gold plated earrings', price: 1500, image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=300&fit=crop', category: 'Jewelry', moq: '100 pairs', rating: 4.6, region: 'Delhi', attributes: 'Gold coating, design' },
+
+            // 📱 Electronics
+            { id: 46, name: 'Power Banks', description: 'High capacity power banks', price: 1800, image: 'https://images.unsplash.com/photo-1585435557343-3b092031d5ad?w=400&h=300&fit=crop', category: 'Electronics', moq: '100 units', rating: 4.3, region: 'Noida', attributes: 'Capacity, port type' },
+            { id: 47, name: 'LED Lights', description: 'Energy efficient LED bulbs', price: 300, image: 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=400&h=300&fit=crop', category: 'Electronics', moq: '500 units', rating: 4.5, region: 'Delhi', attributes: 'Wattage, color temp' }
+        ];
+
+        // Utility Functions
+        class AppUtils {
+            static validateEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            }
+
+            static showNotification(message, type = 'success') {
+                const notification = document.getElementById('notification');
+                notification.textContent = message;
+                notification.style.background = type === 'error' ? '#dc3545' : 
+                                              type === 'warning' ? '#ffc107' : '#28a745';
+                notification.classList.add('show');
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+
+            static formatCurrency(amount) {
+                return '₹' + amount.toLocaleString('en-IN');
+            }
+
+            static formatDate(dateString) {
+                return new Date(dateString).toLocaleDateString('en-IN');
+            }
+        }
+
+        // Simple Backend using localStorage
+        class SimpleBackend {
+            static saveUser(userData) {
+                BackendConsole.log(`🔐 Saving user: ${userData.email}`);
+                // Add registration date
+                userData.createdAt = new Date().toISOString();
+                // Simple encoding for demo
+                const encodedData = btoa(JSON.stringify(userData));
+                localStorage.setItem('user', encodedData);
+                BackendConsole.log(`✅ User registered successfully: ${userData.name}`);
+                return userData;
+            }
+
+            static getUser() {
+                const encodedData = localStorage.getItem('user');
+                if (encodedData) {
+                    try {
+                        const user = JSON.parse(atob(encodedData));
+                        BackendConsole.log(`👤 User fetched: ${user.email}`);
+                        return user;
+                    } catch (e) {
+                        BackendConsole.log('❌ Error decoding user data');
+                        return null;
+                    }
+                }
+                BackendConsole.log('ℹ️ No user found in database');
+                return null;
+            }
+
+            static logout() {
+                BackendConsole.log('🚪 User logged out');
+                localStorage.removeItem('user');
+                localStorage.removeItem('cart');
+            }
+
+            static getProducts(filters = {}) {
+                BackendConsole.log(`📦 Fetching products with filters: ${JSON.stringify(filters)}`);
+                let products = [...madeInIndiaProducts];
+                
+                // Apply category filter
+                if (filters.category && filters.category !== 'all') {
+                    products = products.filter(product => 
+                        product.category === filters.category
+                    );
+                    BackendConsole.log(`🎯 Filtered by category: ${filters.category} (${products.length} products)`);
+                }
+
+                // Apply sorting
+                if (filters.sortBy) {
+                    switch(filters.sortBy) {
+                        case 'price-low':
+                            products.sort((a, b) => a.price - b.price);
+                            BackendConsole.log('📊 Sorted by price: Low to High');
+                            break;
+                        case 'price-high':
+                            products.sort((a, b) => b.price - a.price);
+                            BackendConsole.log('📊 Sorted by price: High to Low');
+                            break;
+                        case 'rating':
+                            products.sort((a, b) => b.rating - a.rating);
+                            BackendConsole.log('⭐ Sorted by rating: Highest first');
+                            break;
+                        case 'name':
+                            products.sort((a, b) => a.name.localeCompare(b.name));
+                            BackendConsole.log('🔤 Sorted by name: A to Z');
+                            break;
+                    }
+                }
+
+                BackendConsole.log(`✅ Returning ${products.length} products`);
+                return products;
+            }
+        }
+
+        // Cart Management
+        class CartManager {
+            static getCart() {
+                const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                BackendConsole.log(`🛒 Cart fetched: ${cart.length} items`);
+                return cart;
+            }
+
+            static saveCart(cart) {
+                localStorage.setItem('cart', JSON.stringify(cart));
+                BackendConsole.log(`💾 Cart saved: ${cart.length} items`);
+            }
+
+            static updateCartCount() {
+                const cart = this.getCart();
+                const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+                const cartCountElement = document.getElementById('cart-count');
+                if (cartCountElement) {
+                    cartCountElement.textContent = count;
+                }
+                BackendConsole.log(`🔢 Cart count updated: ${count} items`);
+            }
+
+            static addToCart(product) {
+                BackendConsole.log(`➕ Adding to cart: ${product.name}`);
+                let cart = this.getCart();
+                const existingItem = cart.find(item => item.id === product.id);
+                
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                    BackendConsole.log(`🔄 Increased quantity: ${product.name} (${existingItem.quantity})`);
+                } else {
+                    cart.push({
+                        id: product.id,
+                        name: product.name,
+                        price: product.price,
+                        image: product.image,
+                        quantity: 1,
+                        moq: product.moq
+                    });
+                    BackendConsole.log(`🆕 New item added: ${product.name}`);
+                }
+                
+                this.saveCart(cart);
+                this.updateCartCount();
+                AppUtils.showNotification(`${product.name} added to cart!`);
+            }
+
+            static updateQuantity(productId, newQuantity) {
+                BackendConsole.log(`✏️ Updating quantity for product ${productId} to ${newQuantity}`);
+                let cart = this.getCart();
+                const item = cart.find(item => item.id === productId);
+                
+                if (item) {
+                    if (newQuantity <= 0) {
+                        this.removeFromCart(productId);
+                    } else {
+                        item.quantity = newQuantity;
+                        this.saveCart(cart);
+                        this.updateCartCount();
+                        BackendConsole.log(`✅ Quantity updated: ${item.name} (${newQuantity})`);
+                        if (window.currentPage === 'cart-page') {
+                            loadCartPage();
+                        }
+                    }
+                }
+            }
+
+            static removeFromCart(productId) {
+                BackendConsole.log(`🗑️ Removing product ${productId} from cart`);
+                let cart = this.getCart();
+                const item = cart.find(item => item.id === productId);
+                cart = cart.filter(item => item.id !== productId);
+                this.saveCart(cart);
+                this.updateCartCount();
+                AppUtils.showNotification('Item removed from cart');
+                BackendConsole.log(`✅ Product removed: ${item?.name}`);
+                if (window.currentPage === 'cart-page') {
+                    loadCartPage();
+                }
+            }
+
+            static getCartSummary() {
+                const cart = this.getCart();
+                const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                const tax = subtotal * 0.18;
+                const shipping = 200;
+                const total = subtotal + tax + shipping;
+                
+                BackendConsole.log(`💰 Cart summary: Subtotal=₹${subtotal}, Tax=₹${tax}, Total=₹${total}`);
+                return { subtotal, tax, shipping, total };
+            }
+        }
+
+        // Product Management
+        class ProductManager {
+            static async loadProducts(filters = {}) {
+                const loadingElement = document.getElementById('loading');
+                const gridElement = document.getElementById('products-grid');
+                
+                if (loadingElement) loadingElement.style.display = 'block';
+                if (gridElement) gridElement.innerHTML = '';
+                
+                try {
+                    // Simulate API call delay
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    
+                    const products = SimpleBackend.getProducts(filters);
+                    this.displayProducts(products);
+                } catch (error) {
+                    console.error('Failed to load products:', error);
+                    const products = SimpleBackend.getProducts(filters);
+                    this.displayProducts(products);
+                    AppUtils.showNotification('Failed to load products', 'error');
+                }
+                
+                if (loadingElement) loadingElement.style.display = 'none';
+            }
+
+            static displayProducts(products) {
+                const grid = document.getElementById('products-grid');
+                if (!grid) return;
+
+                if (products.length === 0) {
+                    grid.innerHTML = '<div class="empty-state">No products found matching your criteria.</div>';
+                    return;
+                }
+
+                grid.innerHTML = products.map(product => `
+                    <div class="card product-card">
+                        <div class="product-image">
+                            <img src="${product.image}" alt="${product.name}" 
+                                 onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\'fas fa-image\'></i><br>${product.name}'"
+                                 style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;">
+                        </div>
+                        <h3>${product.name}</h3>
+                        <p class="product-description">${product.description}</p>
+                        <div class="product-price">${AppUtils.formatCurrency(product.price)}</div>
+                        <div class="product-meta">
+                            <div>
+                                <span class="rating">
+                                    <i class="fas fa-star"></i> ${product.rating}
+                                </span>
+                                <div style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">
+                                    <div>MOQ: ${product.moq}</div>
+                                    <div>Region: ${product.region}</div>
+                                    <div>Category: ${product.category}</div>
+                                </div>
+                            </div>
+                            <button class="btn btn-secondary" onclick="CartManager.addToCart(${JSON.stringify(product).replace(/"/g, '&quot;')})">
+                                <i class="fas fa-cart-plus"></i> Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            static setupFilters() {
+                const categoryFilter = document.getElementById('category-filter');
+                const sortFilter = document.getElementById('sort-filter');
+                const searchInput = document.getElementById('search-input');
+
+                const updateProducts = () => {
+                    const filters = {
+                        category: categoryFilter.value,
+                        sortBy: sortFilter.value
+                    };
+                    this.loadProducts(filters);
+                };
+
+                if (categoryFilter) categoryFilter.addEventListener('change', updateProducts);
+                if (sortFilter) sortFilter.addEventListener('change', updateProducts);
+                if (searchInput) {
+                    searchInput.addEventListener('input', (e) => {
+                        const searchTerm = e.target.value.toLowerCase();
+                        const filteredProducts = madeInIndiaProducts.filter(product => 
+                            product.name.toLowerCase().includes(searchTerm) ||
+                            product.description.toLowerCase().includes(searchTerm) ||
+                            product.category.toLowerCase().includes(searchTerm) ||
+                            product.region.toLowerCase().includes(searchTerm)
+                        );
+                        this.displayProducts(filteredProducts);
+                    });
+                }
+            }
+        }
+
+        // Page Management
+        function showPage(pageId) {
+            BackendConsole.log(`📄 Navigating to page: ${pageId}`);
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            document.getElementById(pageId).classList.add('active');
+            window.currentPage = pageId;
+            
+            // Initialize page specific logic
+            switch(pageId) {
+                case 'dashboard-page':
+                    loadDashboardPage();
+                    break;
+                case 'cart-page':
+                    loadCartPage();
+                    break;
+                case 'profile-page':
+                    loadProfilePage();
+                    break;
+            }
+        }
+
+        function loadDashboardPage() {
+            if (!SimpleBackend.getUser()) {
+                showPage('step1-page');
+                return;
+            }
+            
+            CartManager.updateCartCount();
+            ProductManager.loadProducts();
+            ProductManager.setupFilters();
+        }
+
+        function loadCartPage() {
+            if (!SimpleBackend.getUser()) {
+                showPage('step1-page');
+                return;
+            }
+            
+            const cart = CartManager.getCart();
+            const cartItems = document.getElementById('cart-items');
+            const emptyCart = document.getElementById('empty-cart');
+            const cartContent = document.getElementById('cart-content');
+            
+            if (cart.length === 0) {
+                emptyCart.style.display = 'block';
+                cartContent.style.display = 'none';
+                return;
+            }
+            
+            emptyCart.style.display = 'none';
+            cartContent.style.display = 'block';
+            
+            cartItems.innerHTML = cart.map(item => `
+                <div class="card cart-item">
+                    <div class="cart-item-image">
+                        <img src="${item.image}" alt="${item.name}" 
+                             onerror="this.style.display='none'; this.parentElement.innerHTML='<i class=\'fas fa-image\'></i>'"
+                             style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;">
+                    </div>
+                    <div class="cart-item-details">
+                        <h4>${item.name}</h4>
+                        <p>MOQ: ${item.moq}</p>
+                        <div class="cart-item-price">${AppUtils.formatCurrency(item.price)}</div>
+                        <div class="quantity-controls">
+                            <button class="quantity-btn" onclick="CartManager.updateQuantity(${item.id}, ${item.quantity - 1})">-</button>
+                            <span style="font-weight: bold; min-width: 30px; text-align: center;">${item.quantity}</span>
+                            <button class="quantity-btn" onclick="CartManager.updateQuantity(${item.id}, ${item.quantity + 1})">+</button>
+                            <button class="remove-btn" onclick="CartManager.removeFromCart(${item.id})">
+                                <i class="fas fa-trash"></i> Remove
+                            </button>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-weight: bold; font-size: 1.2rem;">
+                            ${AppUtils.formatCurrency(item.price * item.quantity)}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Update summary
+            const summary = CartManager.getCartSummary();
+            document.getElementById('subtotal').textContent = AppUtils.formatCurrency(summary.subtotal);
+            document.getElementById('tax').textContent = AppUtils.formatCurrency(summary.tax);
+            document.getElementById('cart-total').textContent = AppUtils.formatCurrency(summary.total);
+            
+            CartManager.updateCartCount();
+        }
+
+        function loadProfilePage() {
+            const user = SimpleBackend.getUser();
+            if (!user) {
+                showPage('step1-page');
+                return;
+            }
+
+            document.getElementById('profile-name').textContent = user.name;
+            document.getElementById('profile-email').textContent = user.email;
+            document.getElementById('profile-purpose').textContent = user.purpose;
+            document.getElementById('profile-userType').textContent = user.userType;
+            document.getElementById('profile-createdAt').textContent = AppUtils.formatDate(user.createdAt);
+        }
+
+        function logout() {
+            SimpleBackend.logout();
+            showPage('step1-page');
+            AppUtils.showNotification('Logged out successfully');
+        }
+
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', function() {
+            BackendConsole.log('🚀 BharatTrade Backend Initialized');
+            BackendConsole.log('📍 Database: localStorage');
+            BackendConsole.log('👤 Authentication: Simple encoding');
+            BackendConsole.log('🛒 Cart: Persistent storage');
+            
+            // Setup registration step 1 form
+            const step1Form = document.getElementById('step1-form');
+            if (step1Form) {
+                step1Form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const formData = new FormData(e.target);
+                    const userData = {
+                        name: document.getElementById('name').value,
+                        purpose: document.getElementById('purpose').value
+                    };
+                    
+                    // Save step 1 data temporarily
+                    localStorage.setItem('tempStep1', JSON.stringify(userData));
+                    showPage('step2-page');
+                });
+            }
+
+            // Setup registration step 2 form
+            const step2Form = document.getElementById('step2-form');
+            if (step2Form) {
+                step2Form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const email = document.getElementById('email').value;
+                    const password = document.getElementById('password').value;
+                    const userType = document.getElementById('userType').value;
+                    
+                    // Get step 1 data
+                    const step1Data = JSON.parse(localStorage.getItem('tempStep1') || '{}');
+                    
+                    // Validate email
+                    if (!AppUtils.validateEmail(email)) {
+                        AppUtils.showNotification('Please enter a valid email address', 'error');
+                        return;
+                    }
+                    
+                    if (password.length < 6) {
+                        AppUtils.showNotification('Password must be at least 6 characters', 'error');
+                        return;
+                    }
+                    
+                    // Create complete user object
+                    const userData = {
+                        ...step1Data,
+                        email: email,
+                        password: password, // In real app, this would be encrypted
+                        userType: userType
+                    };
+                    
+                    // Save user
+                    SimpleBackend.saveUser(userData);
+                    
+                    // Clear temp data
+                    localStorage.removeItem('tempStep1');
+                    
+                    // Show success and redirect to dashboard
+                    AppUtils.showNotification('Account created successfully!');
+                    showPage('dashboard-page');
+                });
+            }
+
+            // Setup login form
+            const loginForm = document.getElementById('login-form');
+            if (loginForm) {
+                loginForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const email = document.getElementById('login-email').value;
+                    const password = document.getElementById('login-password').value;
+                    
+                    const user = SimpleBackend.getUser();
+                    
+                    if (user && user.email === email && user.password === password) {
+                        AppUtils.showNotification('Login successful!');
+                        showPage('dashboard-page');
+                    } else {
+                        AppUtils.showNotification('Invalid email or password', 'error');
+                    }
+                });
+            }
+            
+            // Setup checkout button
+            const checkoutBtn = document.getElementById('checkout-btn');
+            if (checkoutBtn) {
+                checkoutBtn.addEventListener('click', () => {
+                    const cart = CartManager.getCart();
+                    if (cart.length === 0) {
+                        AppUtils.showNotification('Your cart is empty!', 'error');
+                        return;
+                    }
+                    
+                    // Simulate checkout process
+                    AppUtils.showNotification('Order placed successfully! Our team will contact you shortly.');
+                    localStorage.removeItem('cart');
+                    CartManager.updateCartCount();
+                    loadCartPage();
+                });
+            }
+            
+            // Check if user is already logged in on page load
+            const user = SimpleBackend.getUser();
+            if (user) {
+                showPage('dashboard-page');
+            } else {
+                showPage('step1-page');
+            }
+            
+            // Initialize cart count
+            CartManager.updateCartCount();
+        });
+    </script>
+</body>
+</html>
